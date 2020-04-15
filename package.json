@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "countdown": "^2.6.0",
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "superagent": "^5.2.2"
   },
   "devDependencies": {
     "browser-sync": "^2.26.7",
