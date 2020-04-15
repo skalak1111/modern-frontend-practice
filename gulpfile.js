@@ -8,6 +8,11 @@ var handlebars = require('gulp-compile-handlebars');
 var rename = require('gulp-rename');
 var less = require('gulp-less');
 var autoprefixer = require('gulp-autoprefixer');
+/** related to browserify starts **/
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+/** related to browserify ends **/
 
 var menu = require('./menu.json');
 
@@ -37,12 +42,27 @@ gulp.task('images', function(){
 });
 
 gulp.task('scripts', function(){
-    gulp.src(['src/scripts/main.js'])
+    var b = browserify({
+        entries: 'src/scripts/main.js',
+        debug: true
+    });
+
+    b.bundle()
+        .pipe(source('main.js'))
+        .pipe(buffer())
+        .pipe(sourceMaps.init({loadMaps: true}))
+        .pipe(uglify())
+        .pipe(sourceMaps.write())
+        .pipe(gulp.dest('dist/scripts'))
+        .pipe(browserSync.stream());
+
+    /* gulp.src(['src/scripts/main.js'])
         .pipe(sourceMaps.init())
         .pipe(uglify())
         .pipe(sourceMaps.write())
         .pipe(gulp.dest('dist/scripts'))
         .pipe(browserSync.stream());
+        */
 });
 
 gulp.task('styles', function(){
