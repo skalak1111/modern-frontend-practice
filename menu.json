@@ -1,0 +1,29 @@
+{
+    "menuItems":[
+        {
+            "title": "Veggie Burger",
+            "count": 200,
+            "id": 1
+        },
+        {
+            "title": "Chicken Burger",
+            "count": 250,
+            "id": 2
+        },
+        {
+            "title": "Tofu Burger",
+            "count": 150,
+            "id": 3
+        },
+        {
+            "title": "Spicy Egg Burger",
+            "count": 200,
+            "id": 4
+        },
+        {
+            "title": "Taco Roll",
+            "count": 100,
+            "id": 5
+        }
+    ]
+}

@@ -7,17 +7,24 @@ var imageMin = require('gulp-imagemin');
 var handlebars = require('gulp-compile-handlebars');
 var rename = require('gulp-rename');
 
+var menu = require('./menu.json');
+
 gulp.task('templates', function(){
-    var data = {};
+    var data = {
+        year: new Date().getFullYear(),
+        menu: menu.menuItems
+    };
+
     var options = {
         batch: ['src/templates/partials']
     }
+
     return gulp.src(['src/templates/**/*.hbs', '!src/templates/partials/**/*.hbs'])
-    .pipe(handlebars(data, options))
-    .pipe(rename(function (path){
-        path.extname = '.html'
-    }))
-    .pipe(gulp.dest('./'));
+        .pipe(handlebars(data, options))
+        .pipe(rename(function (path){
+            path.extname = '.html'
+        }))
+        .pipe(gulp.dest('./'));
 })
 
 gulp.task('images', function(){
