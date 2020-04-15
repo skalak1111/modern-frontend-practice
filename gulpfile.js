@@ -14,6 +14,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 /** related to browserify ends **/
 var jshint = require('gulp-jshint');
+var mocha = require('gulp-mocha');
 
 var menu = require('./menu.json');
 
@@ -81,6 +82,11 @@ gulp.task('lint', function() {
     return gulp.src('src/scripts/**/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
+});
+
+gulp.task('test', function() {
+    return gulp.src('test/*.js')
+        .pipe(mocha());
 });
 
 //gulp.series(gulp.parallel('styles','scripts','images','templates')
