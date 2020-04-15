@@ -29,3 +29,26 @@ html {
       author styles
       place your custom styles below here
   ========================================== */
+
+  .section-list {
+      li {
+          list-style: none;
+      }
+  }
+
+  /* link styles */
+
+  a,
+  a:visited,
+  .link {
+      background: @red;
+      color: @light-bg;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover,
+      &:focus {
+          background: lighten(@red, 2%); //lighten is by default from less
+          color: darken(@light-bg, 10%);
+      }
+  }
