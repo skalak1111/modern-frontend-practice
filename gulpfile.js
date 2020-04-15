@@ -4,6 +4,17 @@ var minifyCss = require('gulp-minify-css');
 var sourceMaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var imageMin = require('gulp-imagemin');
+var handlebars = require('gulp-compile-handlebars');
+var rename = require('gulp-rename');
+
+gulp.task('templates', function(){
+    return gulp.src(['src/templates/**/*.hbs'])
+    .pipe(handlebars())
+    .pipe(rename(function (path){
+        path.extname = '.html'
+    }))
+    .pipe(gulp.dest('./'));
+})
 
 gulp.task('images', function(){
     gulp.src(['src/img/**/*'])
@@ -30,7 +41,7 @@ gulp.task('styles', function(){
         .pipe(browserSync.stream());
 });
 
-gulp.task('default', function(){
+gulp.task('default',  function(){
     browserSync.init({
         server: './'
     });
@@ -38,6 +49,7 @@ gulp.task('default', function(){
     gulp.watch('src/styles/**/*.css', gulp.series('styles'));
     gulp.watch('src/scripts/**/*.js', gulp.series('scripts'));
     gulp.watch('src/img/**/*', gulp.series('images'));
+    gulp.watch('src/templates/**/*.hbs', gulp.series('templates'));
     gulp.watch('*.html',browserSync.reload);
     //console.log("Your first task has run.")
     //done();
