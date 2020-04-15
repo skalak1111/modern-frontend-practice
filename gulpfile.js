@@ -8,8 +8,12 @@ var handlebars = require('gulp-compile-handlebars');
 var rename = require('gulp-rename');
 
 gulp.task('templates', function(){
-    return gulp.src(['src/templates/**/*.hbs'])
-    .pipe(handlebars())
+    var data = {};
+    var options = {
+        batch: ['src/templates/partials']
+    }
+    return gulp.src(['src/templates/**/*.hbs', '!src/templates/partials/**/*.hbs'])
+    .pipe(handlebars(data, options))
     .pipe(rename(function (path){
         path.extname = '.html'
     }))
@@ -41,7 +45,7 @@ gulp.task('styles', function(){
         .pipe(browserSync.stream());
 });
 
-gulp.task('default',  function(){
+gulp.task('default', function(){
     browserSync.init({
         server: './'
     });
