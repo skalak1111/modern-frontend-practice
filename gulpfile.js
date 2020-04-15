@@ -38,7 +38,7 @@ gulp.task('templates', function(){
 })
 
 gulp.task('images', function(){
-    gulp.src(['src/img/**/*'])
+    return gulp.src(['src/img/**/*'])
         .pipe(imageMin())
         .pipe(gulp.dest('dist/img'))
         .pipe(browserSync.stream());
@@ -50,7 +50,7 @@ gulp.task('scripts', function(){
         debug: true
     });
 
-    b.bundle()
+    return b.bundle()
         .pipe(source('main.js'))
         .pipe(buffer())
         .pipe(sourceMaps.init({loadMaps: true}))
@@ -69,7 +69,7 @@ gulp.task('scripts', function(){
 });
 
 gulp.task('styles', function(){
-    gulp.src(['src/styles/main.less'])
+    return gulp.src(['src/styles/main.less'])
         .pipe(sourceMaps.init())
         .pipe(less())
         .pipe(autoprefixer()) //post css prefixer i.e. webkit overriding will be seen in browser elements
@@ -85,7 +85,7 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('test', function() {
+gulp.task('unit-test', function() {
     return gulp.src('test/*.js')
         .pipe(mocha());
 });
@@ -96,8 +96,10 @@ gulp.task('accessibility', function() {
         .pipe(a11y.reporter());
 });
 
-//gulp.series(gulp.parallel('styles','scripts','images','templates')
-gulp.task('default', function(done){
+gulp.task('test', gulp.series('lint', 'unit-test', 'accessibility'));
+
+//gulp.series(gulp.parallel('styles','scripts','images','templates', 'test')
+gulp.task('default', gulp.series('styles','scripts','images','templates', 'test'), function(done){
     browserSync.init({
         server: {
             baseDir: './',
@@ -105,10 +107,10 @@ gulp.task('default', function(done){
         }
     });
     //gulp.watch('src/**/*', browserSync.reload);
-    gulp.watch('src/styles/**/*.less', gulp.series('styles'));
-    gulp.watch('src/scripts/**/*.js', gulp.series('scripts'));
+    gulp.watch('src/styles/**/*.less', gulp.series('styles', 'accessibility'));
+    gulp.watch('src/scripts/**/*.js', gulp.series('scripts', 'lint', 'unit-test'));
     gulp.watch('src/img/**/*', gulp.series('images'));
-    gulp.watch('src/templates/**/*.hbs', gulp.series('templates'));
+    gulp.watch('src/templates/**/*.hbs', gulp.series('templates', 'accessibility'));
     gulp.watch('*.html',browserSync.reload);
     //console.log("Your first task has run.")
     done();
