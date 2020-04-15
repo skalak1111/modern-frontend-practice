@@ -8,7 +8,7 @@ var helper = module.exports = {
 
     setCurrent: function(id) { 
         for(var i = 0; i < model.menu.length; i++) {
-            if(model.menu[i].id === id) {
+            if(model.menu[i].id === id) { 
                 model.menuItem = model.menu[i];
                 //console.log(model.menuItem);
             }

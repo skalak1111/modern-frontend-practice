@@ -13,6 +13,7 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 /** related to browserify ends **/
+var jshint = require('gulp-jshint');
 
 var menu = require('./menu.json');
 
@@ -76,8 +77,14 @@ gulp.task('styles', function(){
         .pipe(browserSync.stream());
 });
 
+gulp.task('lint', function() {
+    return gulp.src('src/scripts/**/*.js')
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
+});
+
 //gulp.series(gulp.parallel('styles','scripts','images','templates')
-gulp.task('default', function(){
+gulp.task('default', function(done){
     browserSync.init({
         server: {
             baseDir: './',
@@ -91,6 +98,6 @@ gulp.task('default', function(){
     gulp.watch('src/templates/**/*.hbs', gulp.series('templates'));
     gulp.watch('*.html',browserSync.reload);
     //console.log("Your first task has run.")
-    //done();
+    done();
 });
 

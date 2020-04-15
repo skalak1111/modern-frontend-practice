@@ -11,24 +11,28 @@ var view = module.exports = {
         var listItem = document.querySelectorAll('#menu li');
 
         for(var i = 0; i < listItem.length; i++) {
-            listItem[i].addEventListener('click', function(){
-                id = this.getAttribute("data-id");
-                 //console.log("krishna"+ id); 
-                // set the current menu item
-                helper.setCurrent(+id); 
-                // increment that menu item
-                helper.increment();
-                // update the menu item in the view
-                view.updateCount();
-            });
+            view.addEventListener(listItem[i]);
         }
+    },
+
+    addEventListener: function(listItem) {
+        listItem.addEventListener('click', function(){
+            id = this.getAttribute("data-id");
+             // console.log("krishna"+ id); 
+            // set the current menu item
+            helper.setCurrent(+id); 
+            // increment that menu item
+            helper.increment();
+            // update the menu item in the view
+            view.updateCount();
+        });
     },
 
     updateCount: function() {
         //get the current menu item
         var item = helper.getCurrent();
         //find the li of the current menu item
-        var li = document.querySelector('[data-id="'+ item.id + '"]')
+        var li = document.querySelector('[data-id="'+ item.id + '"]');
         var count = li.querySelector('.menu-count');
 
         //update the count in the view 
