@@ -6,6 +6,7 @@ var uglify = require('gulp-uglify');
 var imageMin = require('gulp-imagemin');
 var handlebars = require('gulp-compile-handlebars');
 var rename = require('gulp-rename');
+var less = require('gulp-less');
 
 var menu = require('./menu.json');
 
@@ -44,8 +45,9 @@ gulp.task('scripts', function(){
 });
 
 gulp.task('styles', function(){
-    gulp.src(['src/styles/**/*.css'])
+    gulp.src(['src/styles/main.less'])
         .pipe(sourceMaps.init())
+        .pipe(less())
         .pipe(minifyCss())
         .pipe(sourceMaps.write())
         .pipe(gulp.dest('dist/styles'))
@@ -57,7 +59,7 @@ gulp.task('default', function(){
         server: './'
     });
     //gulp.watch('src/**/*', browserSync.reload);
-    gulp.watch('src/styles/**/*.css', gulp.series('styles'));
+    gulp.watch('src/styles/**/*.less', gulp.series('styles'));
     gulp.watch('src/scripts/**/*.js', gulp.series('scripts'));
     gulp.watch('src/img/**/*', gulp.series('images'));
     gulp.watch('src/templates/**/*.hbs', gulp.series('templates'));
