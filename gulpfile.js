@@ -56,9 +56,13 @@ gulp.task('styles', function(){
         .pipe(browserSync.stream());
 });
 
+//gulp.series(gulp.parallel('styles','scripts','images','templates')
 gulp.task('default', function(){
     browserSync.init({
-        server: './'
+        server: {
+            baseDir: './',
+            injectChanges: true
+        }
     });
     //gulp.watch('src/**/*', browserSync.reload);
     gulp.watch('src/styles/**/*.less', gulp.series('styles'));
