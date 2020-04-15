@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "countdown": "^2.6.0",
     "normalize.css": "^8.0.1"
   },
   "devDependencies": {
